@@ -1,17 +1,19 @@
-package baitap2;
+package baitap3_2;
 
 /**
- * Lớp HinhTron biểu diễn hình tròn trong mặt phẳng tọa độ Oxy.
- * Hình tròn được xác định bởi:
- * - Điểm tâm O (đối tượng kiểu Diem)
- * - Bán kính r (kiểu double)
+ * Lớp HinhTron biểu diễn hình tròn với tâm O (kiểu Diem) và bán kính r.
+ * Đóng vai trò là lớp lưu trữ dữ liệu (Data Model) thuần túy:
+ * - Thuộc tính: O, banKinh
+ * - Hàm tạo (Constructor)
+ * - Getter và Setter
+ * - Phương thức toString()
  */
 public class HinhTron {
     // 1. THUỘC TÍNH
     private Diem O;          // Tâm hình tròn
     private double banKinh;  // Bán kính r
 
-    // 2. HÀM TẠO (Constructor) nhận vào tâm O và bán kính
+    // 2. HÀM TẠO (Constructor)
     public HinhTron(Diem O, double banKinh) {
         this.O = O;
         this.banKinh = Math.max(0, banKinh);
@@ -34,18 +36,7 @@ public class HinhTron {
         this.banKinh = Math.max(0, banKinh);
     }
 
-    // 4. PHƯƠNG THỨC TÍNH CHU VI
-    // Công thức: C = 2 * PI * r
-    public double tinhChuVi() {
-        return 2 * Math.PI * banKinh;
-    }
-
-    // 5. PHƯƠNG THỨC TÍNH DIỆN TÍCH
-    // Công thức: S = PI * r^2
-    public double tinhDienTich() {
-        return Math.PI * banKinh * banKinh;
-    }
-
+    // 4. PHƯƠNG THỨC CHUYỂN THÀNH CHUỖI ĐỂ IN
     @Override
     public String toString() {
         return "HinhTron[Tâm=" + O + ", Bán kính=" + banKinh + "]";

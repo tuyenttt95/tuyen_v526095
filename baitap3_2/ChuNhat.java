@@ -1,13 +1,20 @@
-package baitap2;
+package baitap3_2;
 
+/**
+ * Lớp ChuNhat biểu diễn một hình chữ nhật với chiều dài và chiều rộng.
+ * Đóng vai trò là lớp lưu trữ dữ liệu (Data Model) thuần túy:
+ * - Thuộc tính chieuDai, chieuRong
+ * - Hàm tạo (Constructor)
+ * - Getter và Setter
+ * - Phương thức toString()
+ */
 public class ChuNhat {
     // 1. THUỘC TÍNH
     private double chieuDai;
     private double chieuRong;
 
-    // 2. HÀM TẠO (Constructor) nhận vào độ dài 2 cạnh
+    // 2. HÀM TẠO (Constructor)
     public ChuNhat(double chieuDai, double chieuRong) {
-        // Đảm bảo kích thước không âm (kiểm tra an toàn)
         this.chieuDai = Math.max(0, chieuDai);
         this.chieuRong = Math.max(0, chieuRong);
     }
@@ -29,18 +36,7 @@ public class ChuNhat {
         this.chieuRong = Math.max(0, chieuRong);
     }
 
-    // 4. PHƯƠNG THỨC TÍNH CHU VI
-    // Công thức: Chu vi = (chiều dài + chiều rộng) * 2
-    public double tinhChuVi() {
-        return (chieuDai + chieuRong) * 2;
-    }
-
-    // 5. PHƯƠNG THỨC TÍNH DIỆN TÍCH
-    // Công thức: Diện tích = chiều dài * chiều rộng
-    public double tinhDienTich() {
-        return chieuDai * chieuRong;
-    }
-
+    // 4. PHƯƠNG THỨC CHUYỂN THÀNH CHUỖI ĐỂ IN
     @Override
     public String toString() {
         return "ChuNhat[Dài=" + chieuDai + ", Rộng=" + chieuRong + "]";

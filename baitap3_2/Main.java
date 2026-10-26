@@ -1,161 +1,113 @@
 package baitap3_2;
 
+import java.util.ArrayList;
+
 /**
- * Lớp Main cho Bài tập 3.2:
- * Nơi tập trung toàn bộ các hàm xử lý tính toán chu vi, diện tích cho các hình học:
- * - Hình Tam Giác (kiểm tra hợp lệ, chu vi, diện tích theo Heron)
- * - Hình Chữ Nhật (chu vi, diện tích)
- * - Hình Tròn (chu vi, diện tích)
+ * Lớp Main cho Bài tập 2 - buổi 3 (Class - Inheritance / Modifiers).
+ *
+ * Chương trình chính:
+ * 1. Tạo một danh sách điểm bao gồm cả điểm 2D và điểm 3D.
+ * 2. Tính tổng khoảng cách các điểm 2D và tổng khoảng cách các điểm 3D.
+ * 3. Đưa các điểm đối xứng vào danh sách và hiển thị danh sách các điểm.
+ *
+ * Ghi chú về kế thừa: Diem3D kế thừa Diem2D, nên một danh sách kiểu Diem2D
+ * có thể chứa cả đối tượng Diem3D (tính đa hình - polymorphism).
  */
 public class Main {
 
-    // =========================================================================
-    // 1. HÀM CHÍNH (MAIN): Khởi tạo đối tượng và gọi các hàm tính toán
-    // =========================================================================
     public static void main(String[] args) {
         System.out.println("======================================================================");
-        System.out.println("       BÀI TẬP 3.2: TÍNH CHU VI VÀ DIỆN TÍCH CÁC HÌNH HỌC (OOP)       ");
+        System.out.println("     BÀI TẬP 2 - BUỔI 3: KẾ THỪA LỚP ĐIỂM 2D & 3D (INHERITANCE)      ");
         System.out.println("======================================================================\n");
 
         // ---------------------------------------------------------
-        // 1. KHỞI TẠO VÀ TÍNH TOÁN 2 HÌNH TAM GIÁC
+        // 1. TẠO DANH SÁCH ĐIỂM GỒM CẢ 2D VÀ 3D
         // ---------------------------------------------------------
-        // Tam giác 1: tam giác vuông tại A (đỉnh A(0,0), B(3,0), C(0,4))
-        TamGiac tg1 = new TamGiac(new Diem(0.0, 0.0), new Diem(3.0, 0.0), new Diem(0.0, 4.0));
-        // Tam giác 2: tam giác cân (đỉnh A(1,1), B(5,1), C(3,4))
-        TamGiac tg2 = new TamGiac(new Diem(1.0, 1.0), new Diem(5.0, 1.0), new Diem(3.0, 4.0));
+        // Tách riêng 2 danh sách để tính tổng khoảng cách cho từng loại.
+        ArrayList<Diem2D> dsDiem2D = new ArrayList<>();
+        dsDiem2D.add(new Diem2D(0.0, 0.0));
+        dsDiem2D.add(new Diem2D(3.0, 4.0));
+        dsDiem2D.add(new Diem2D(6.0, 8.0));
 
-        System.out.println(">>> 1. DANH SÁCH HÌNH TAM GIÁC:");
-        inThongTinTamGiac("Tam giác 1 (vuông)", tg1);
-        inThongTinTamGiac("Tam giác 2 (cân)", tg2);
+        ArrayList<Diem3D> dsDiem3D = new ArrayList<>();
+        dsDiem3D.add(new Diem3D(0.0, 0.0, 0.0));
+        dsDiem3D.add(new Diem3D(1.0, 2.0, 2.0));
+        dsDiem3D.add(new Diem3D(4.0, 4.0, 2.0));
+
+        // Danh sách tổng hợp (dùng tính đa hình: Diem2D chứa cả Diem3D)
+        ArrayList<Diem2D> danhSach = new ArrayList<>();
+        danhSach.addAll(dsDiem2D);
+        danhSach.addAll(dsDiem3D);
+
+        System.out.println(">>> 1. DANH SÁCH ĐIỂM BAN ĐẦU:");
+        hienThiDanhSach(danhSach);
 
         // ---------------------------------------------------------
-        // 2. KHỞI TẠO VÀ TÍNH TOÁN 2 HÌNH CHỮ NHẬT
+        // 2. TÍNH TỔNG KHOẢNG CÁCH
         // ---------------------------------------------------------
-        ChuNhat cn1 = new ChuNhat(8.0, 5.0);
-        ChuNhat cn2 = new ChuNhat(12.5, 4.2);
+        System.out.println("\n>>> 2. TỔNG KHOẢNG CÁCH GIỮA CÁC ĐIỂM LIÊN TIẾP:");
 
-        System.out.println("\n>>> 2. DANH SÁCH HÌNH CHỮ NHẬT:");
-        inThongTinChuNhat("Hình chữ nhật 1", cn1);
-        inThongTinChuNhat("Hình chữ nhật 2", cn2);
+        double tongKC2D = tinhTongKhoangCach2D(dsDiem2D);
+        System.out.printf("  - Tổng khoảng cách các điểm 2D: %.2f%n", tongKC2D);
+
+        double tongKC3D = tinhTongKhoangCach3D(dsDiem3D);
+        System.out.printf("  - Tổng khoảng cách các điểm 3D: %.2f%n", tongKC3D);
 
         // ---------------------------------------------------------
-        // 3. KHỞI TẠO VÀ TÍNH TOÁN 2 HÌNH TRÒN
+        // 3. ĐƯA CÁC ĐIỂM ĐỐI XỨNG VÀO DANH SÁCH VÀ HIỂN THỊ
         // ---------------------------------------------------------
-        HinhTron ht1 = new HinhTron(new Diem(0.0, 0.0), 5.0);
-        HinhTron ht2 = new HinhTron(new Diem(3.5, 7.0), 2.5);
+        System.out.println("\n>>> 3. THÊM CÁC ĐIỂM ĐỐI XỨNG QUA GỐC TỌA ĐỘ:");
 
-        System.out.println("\n>>> 3. DANH SÁCH HÌNH TRÒN:");
-        inThongTinHinhTron("Hình tròn 1", ht1);
-        inThongTinHinhTron("Hình tròn 2", ht2);
+        // Duyệt bản sao kích thước ban đầu để không lặp vô hạn khi vừa thêm vừa duyệt
+        int soLuongGoc = danhSach.size();
+        for (int i = 0; i < soLuongGoc; i++) {
+            // Nhờ override doiXungQuaGoc(), Diem3D sẽ trả về Diem3D, Diem2D trả về Diem2D
+            danhSach.add(danhSach.get(i).doiXungQuaGoc());
+        }
+
+        System.out.println("  Danh sách sau khi thêm các điểm đối xứng:");
+        hienThiDanhSach(danhSach);
 
         System.out.println("\n======================================================================");
-        System.out.println("                      HOÀN THÀNH CHƯƠNG TRÌNH                         ");
+        System.out.println("                      HOÀN THÀNH CHƯƠNG TRÌNH                        ");
         System.out.println("======================================================================");
     }
 
     // =========================================================================
-    // 2. CÁC HÀM XỬ LÝ TÍNH TOÁN CHO ĐIỂM VÀ ĐOẠN THẲNG
+    // CÁC HÀM HỖ TRỢ
     // =========================================================================
 
     /**
-     * Tính khoảng cách giữa 2 điểm d1 và d2 theo công thức Euclid:
-     * d = sqrt((x2 - x1)^2 + (y2 - y1)^2)
+     * Tính tổng khoảng cách giữa các điểm 2D liên tiếp trong danh sách:
+     * d(p0,p1) + d(p1,p2) + ... + d(p[n-2], p[n-1]).
      */
-    public static double tinhKhoangCach(Diem d1, Diem d2) {
-        double dx = d2.getX() - d1.getX();
-        double dy = d2.getY() - d1.getY();
-        return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    // =========================================================================
-    // 3. CÁC HÀM XỬ LÝ TÍNH TOÁN CHO HÌNH CHỮ NHẬT
-    // =========================================================================
-
-    public static double tinhChuViChuNhat(ChuNhat cn) {
-        return (cn.getChieuDai() + cn.getChieuRong()) * 2;
-    }
-
-    public static double tinhDienTichChuNhat(ChuNhat cn) {
-        return cn.getChieuDai() * cn.getChieuRong();
-    }
-
-    public static void inThongTinChuNhat(String ten, ChuNhat cn) {
-        System.out.printf("  * %s: %s\n", ten, cn);
-        System.out.printf("      - Chu vi   : %.2f\n", tinhChuViChuNhat(cn));
-        System.out.printf("      - Diện tích: %.2f\n", tinhDienTichChuNhat(cn));
-    }
-
-    // =========================================================================
-    // 4. CÁC HÀM XỬ LÝ TÍNH TOÁN CHO HÌNH TRÒN
-    // =========================================================================
-
-    public static double tinhChuViHinhTron(HinhTron ht) {
-        return 2 * Math.PI * ht.getBanKinh();
-    }
-
-    public static double tinhDienTichHinhTron(HinhTron ht) {
-        return Math.PI * ht.getBanKinh() * ht.getBanKinh();
-    }
-
-    public static void inThongTinHinhTron(String ten, HinhTron ht) {
-        System.out.printf("  * %s: %s\n", ten, ht);
-        System.out.printf("      - Chu vi   : %.2f\n", tinhChuViHinhTron(ht));
-        System.out.printf("      - Diện tích: %.2f\n", tinhDienTichHinhTron(ht));
-    }
-
-    // =========================================================================
-    // 5. CÁC HÀM XỬ LÝ TÍNH TOÁN CHO HÌNH TAM GIÁC
-    // =========================================================================
-
-    /**
-     * Tính độ dài 3 cạnh của tam giác:
-     * return mảng double[] gồm [canhAB, canhBC, canhCA]
-     */
-    public static double[] layDoDai3CanhTamGiac(TamGiac tg) {
-        double c = tinhKhoangCach(tg.getA(), tg.getB()); // Cạnh AB
-        double a = tinhKhoangCach(tg.getB(), tg.getC()); // Cạnh BC
-        double b = tinhKhoangCach(tg.getC(), tg.getA()); // Cạnh CA
-        return new double[]{c, a, b};
-    }
-
-    /**
-     * Kiểm tra điều kiện 3 đỉnh có tạo thành tam giác hợp lệ:
-     * Tổng 2 cạnh bất kỳ phải luôn lớn hơn cạnh còn lại
-     */
-    public static boolean kiemTraTamGiacHopLe(TamGiac tg) {
-        double[] canh = layDoDai3CanhTamGiac(tg);
-        double c = canh[0], a = canh[1], b = canh[2];
-        return (a + b > c) && (a + c > b) && (b + c > a);
-    }
-
-    /**
-     * Tính chu vi tam giác = tổng độ dài 3 cạnh: P = a + b + c
-     */
-    public static double tinhChuViTamGiac(TamGiac tg) {
-        double[] canh = layDoDai3CanhTamGiac(tg);
-        return canh[0] + canh[1] + canh[2];
-    }
-
-    /**
-     * Tính diện tích tam giác theo công thức Heron:
-     * S = sqrt(p * (p - a) * (p - b) * (p - c)), với p = Chu vi / 2
-     */
-    public static double tinhDienTichTamGiac(TamGiac tg) {
-        if (!kiemTraTamGiacHopLe(tg)) {
-            return 0.0;
+    public static double tinhTongKhoangCach2D(ArrayList<Diem2D> ds) {
+        double tong = 0.0;
+        for (int i = 0; i < ds.size() - 1; i++) {
+            tong += ds.get(i).khoangCach(ds.get(i + 1));
         }
-        double[] canh = layDoDai3CanhTamGiac(tg);
-        double c = canh[0], a = canh[1], b = canh[2];
-        double p = tinhChuViTamGiac(tg) / 2.0;
-        return Math.sqrt(p * (p - a) * (p - b) * (p - c));
+        return tong;
     }
 
-    public static void inThongTinTamGiac(String ten, TamGiac tg) {
-        double[] canh = layDoDai3CanhTamGiac(tg);
-        System.out.printf("  * %s: %s\n", ten, tg);
-        System.out.printf("      - Độ dài 3 cạnh : AB = %.2f, BC = %.2f, CA = %.2f\n", canh[0], canh[1], canh[2]);
-        System.out.printf("      - Chu vi        : %.2f\n", tinhChuViTamGiac(tg));
-        System.out.printf("      - Diện tích     : %.2f (theo công thức Heron)\n", tinhDienTichTamGiac(tg));
+    /**
+     * Tính tổng khoảng cách giữa các điểm 3D liên tiếp trong danh sách.
+     */
+    public static double tinhTongKhoangCach3D(ArrayList<Diem3D> ds) {
+        double tong = 0.0;
+        for (int i = 0; i < ds.size() - 1; i++) {
+            tong += ds.get(i).khoangCach(ds.get(i + 1));
+        }
+        return tong;
+    }
+
+    /**
+     * Hiển thị danh sách các điểm. Phân biệt rõ điểm 2D và 3D nhờ instanceof.
+     */
+    public static void hienThiDanhSach(ArrayList<Diem2D> ds) {
+        for (int i = 0; i < ds.size(); i++) {
+            Diem2D d = ds.get(i);
+            String loai = (d instanceof Diem3D) ? "3D" : "2D";
+            System.out.printf("      - Điểm [%d] (%s): %s%n", i, loai, d);
+        }
     }
 }

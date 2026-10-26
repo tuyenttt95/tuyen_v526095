@@ -1,4 +1,4 @@
-package baitap3_2;
+package baitap2_3_2;
 
 /**
  * Lớp TamGiac biểu diễn một hình tam giác xác định bởi 3 đỉnh A, B, C (kiểu Diem).

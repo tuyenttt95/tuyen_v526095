@@ -1,4 +1,4 @@
-package baitap3_2;
+package baitap2_3_2;
 
 /**
  * Lớp ChuNhat biểu diễn một hình chữ nhật với chiều dài và chiều rộng.

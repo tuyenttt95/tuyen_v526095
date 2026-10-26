@@ -1,4 +1,4 @@
-package baitap3_1;
+package baitap2_3_1;
 
 /**
  * Lớp DuongThang biểu diễn một đoạn thẳng nối giữa 2 điểm A và B.

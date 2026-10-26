@@ -1,4 +1,4 @@
-package baitap2;
+package baitap2_2;
 
 import java.util.Scanner;
 

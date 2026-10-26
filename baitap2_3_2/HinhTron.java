@@ -1,4 +1,4 @@
-package baitap3_2;
+package baitap2_3_2;
 
 /**
  * Lớp HinhTron biểu diễn hình tròn với tâm O (kiểu Diem) và bán kính r.
